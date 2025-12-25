@@ -21,6 +21,7 @@ export default function App() {
   const [popupNumber, setPopupNumber] = useState(null);
   const [message, setMessage] = useState("");
   const [isSpinning, setIsSpinning] = useState(false);
+  const [showRules, setShowRules] = useState(false);
 
   const arrowRef = useRef(null);
   const currentAngleRef = useRef(0);
@@ -59,7 +60,6 @@ export default function App() {
     setBalance(balance - cost);
   };
 
-  // SPIN ARROW (PERFECT & STABLE)
   const spin = () => {
     if (isSpinning) return;
     if (selected.length === 0) {
@@ -86,11 +86,9 @@ export default function App() {
     const baseAngle = currentAngleRef.current % 360;
     arrow.style.transform = `rotate(${baseAngle}deg)`;
 
-    // 3️⃣ force reflow
     // eslint-disable-next-line no-unused-expressions
     arrow.offsetHeight;
 
-    // 4️⃣ spin
     const targetAngleMod = targetAngle % 360;
     const delta = (targetAngleMod - baseAngle + 360) % 360;
     const finalAngle = baseAngle + 360 * 5 + delta;
@@ -103,8 +101,11 @@ export default function App() {
       setPopupNumber(winNumber);
 
       if (selected.includes(winNumber)) {
-        setBalance(prev => prev + betAmount * 10);
-        setMessage(`🎉 WON ₹${betAmount * 10}`);
+        const totalBet = selected.length * betAmount;
+        const multiplier = selected.length === 1 ? 36 : 3;
+        const totalWin = totalBet * multiplier;
+        setBalance(prev => prev + totalWin);
+        setMessage(`🎉 WON ₹${totalWin}`);
       } else {
         setMessage("❌ LOST");
       }
@@ -118,6 +119,9 @@ export default function App() {
     <div className="app">
       <h1>🎡 खुशी मर्जीचा खेळ</h1>
       <h2>Balance: ₹{balance}</h2>
+      <button className="rules-btn" onClick={() => setShowRules(!showRules)}>
+        {showRules ? "Hide Rules" : "Show Rules"}
+      </button>
 
       {/* Wheel */}
       <div className="wheel-wrapper">
@@ -183,6 +187,20 @@ export default function App() {
       </div>
 
       <p className="msg">{message}</p>
+
+      {/* Game Rules */}
+      {showRules && (
+        <div className="rules">
+          <h4>Game Rules</h4>
+          <ul>
+            <li>Bet on single numbers or full rows.</li>
+            <li>Single number win: 36x your bet.</li>
+            <li>Row win: 3x your total bet.</li>
+            <li>Spin the wheel to play!</li>
+          </ul>
+          <button className="close-btn" onClick={() => setShowRules(false)}>Close</button>
+        </div>
+      )}
 
       <Footer />
     </div>
