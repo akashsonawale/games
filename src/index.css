@@ -1,13 +1,187 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #0a0a0a;
+  color: white;
+  font-family: Arial, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app {
+  text-align: center;
+}
+
+/* Wheel area */
+.wheel-wrapper {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  margin: 20px auto;
+}
+
+/* Static wheel */
+.wheel {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  border: 10px solid gold;
+  background: radial-gradient(circle, #333, #111);
+  position: relative;
+}
+
+/* Numbers like clock */
+.wheel-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+}
+
+.wheel-number span {
+  transform: translateX(140px) rotate(90deg);
+  color: gold;
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* Arrow */
+.arrow {
+  position: absolute;
+  width: 4px;
+  height: 150px;
+  background: red;
+  top: 20px;
+  left: 50%;
+  transform-origin: bottom center;
+  z-index: 5;
+}
+
+/* Result popup */
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: gold;
+  color: black;
+  font-size: 36px;
+  padding: 15px 25px;
+  border-radius: 50%;
+  z-index: 6;
+}
+
+/* Button */
+.spin-btn {
+  padding: 14px 40px;
+  background: gold;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 15px 0;
+}
+
+.spin-btn:disabled {
+  background: #777;
+  cursor: not-allowed;
+}
+
+/* Table */
+.table {
+  max-width: 600px;
+  margin: auto;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.cell {
+  width: 40px;
+  padding: 10px;
+  border: 1px solid #555;
+  cursor: pointer;
+}
+
+.cell.active {
+  background: green;
+}
+
+.full-btn {
+  padding: 8px 12px;
+  background: orange;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Message */
+.msg {
+  margin-top: 15px;
+  font-size: 18px;
+}
+.arrow {
+  position: absolute;
+  width: 4px;
+  height: 120px;        /* ⬅ shorter arrow */
+  background: red;
+  top: 40px;            /* ⬅ move down a bit */
+  left: 50%;
+  transform-origin: bottom center;
+  z-index: 5;
+}
+.footer {
+  background: #0b0b0b;
+  color: #fff;
+  text-align: center;
+  padding: 30px 10px;
+  border-top: 2px solid gold;
+}
+
+.footer-icons {
+  margin-bottom: 15px;
+}
+
+.footer-icons a i {
+  color: gold;
+  font-size: 26px;
+  margin: 0 12px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.footer-icons a i:hover {
+  color: #fff;
+  transform: translateY(-6px) scale(1.2);
+  text-shadow: 0 0 15px gold;
+}
+
+.footer-text {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.footer-text span {
+  color: gold;
+  font-weight: bold;
+}
+
+.footer-tagline {
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(90deg, gold, orange, gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+}
+
+/* Text animation */
+@keyframes shine {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
 }
