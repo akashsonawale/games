@@ -3,8 +3,8 @@ import "./App.css";
 import Footer from "./components/Spin the wheel/footer";
 
 const NUMBERS = Array.from({ length: 31 }, (_, i) => i + 1);
-const BET = 100;
 const SLICE = 360 / 31;
+const CHIPS = [100, 500, 1000, 10000, 100000];
 
 // rows for table
 const ROWS = [
@@ -15,7 +15,8 @@ const ROWS = [
 ];
 
 export default function App() {
-  const [balance, setBalance] = useState(300000);
+  const [balance, setBalance] = useState(100000);
+  const [betAmount, setBetAmount] = useState(100);
   const [selected, setSelected] = useState([]);
   const [popupNumber, setPopupNumber] = useState(null);
   const [message, setMessage] = useState("");
@@ -30,11 +31,11 @@ export default function App() {
 
     if (selected.includes(num)) {
       setSelected(selected.filter(n => n !== num));
-      setBalance(balance + BET);
+      setBalance(balance + betAmount);
     } else {
-      if (balance < BET) return alert("Low balance");
+      if (balance < betAmount) return alert("Low balance");
       setSelected([...selected, num]);
-      setBalance(balance - BET);
+      setBalance(balance - betAmount);
     }
   };
 
@@ -48,7 +49,7 @@ export default function App() {
     row.forEach(num => {
       if (!updated.includes(num)) {
         updated.push(num);
-        cost += BET;
+        cost += betAmount;
       }
     });
 
@@ -102,8 +103,8 @@ export default function App() {
       setPopupNumber(winNumber);
 
       if (selected.includes(winNumber)) {
-        setBalance(prev => prev + BET * 10);
-        setMessage(`🎉 WON ₹${BET * 10}`);
+        setBalance(prev => prev + betAmount * 10);
+        setMessage(`🎉 WON ₹${betAmount * 10}`);
       } else {
         setMessage("❌ LOST");
       }
@@ -144,6 +145,22 @@ export default function App() {
       <button className="spin-btn" onClick={spin} disabled={isSpinning}>
         {isSpinning ? "SPINNING..." : "SPIN"}
       </button>
+
+      {/* Bet Amount */}
+      <div className="bet-amount">
+        <h3>Bet Amount: ₹{betAmount}</h3>
+        <div className="chips">
+          {CHIPS.map(chip => (
+            <button
+              key={chip}
+              className={`chip ${betAmount === chip ? 'active' : ''}`}
+              onClick={() => setBetAmount(chip)}
+            >
+              ₹{chip}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Betting Table */}
       <div className="table">
